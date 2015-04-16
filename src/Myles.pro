@@ -6,7 +6,9 @@ TARGET = Myles
 TEMPLATE = app
 
 SOURCES += main.cpp mainwindow.cpp \
-    bucketlist.cpp
+    bucketlist.cpp \
+    webserver.cpp
 
 HEADERS += mainwindow.h \
-    bucketlist.h
+    bucketlist.h \
+    webserver.h

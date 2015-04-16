@@ -5,6 +5,8 @@
 #include <QLabel>
 #include <QBoxLayout>
 #include <QtWebKit>
+#include <QSettings>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -17,12 +19,35 @@ MainWindow::MainWindow(QWidget *parent) :
     BucketList *bucketList = new BucketList;
     topLayout->addWidget(bucketList);
 
-    QWebView *view = new QWebView;
-    topLayout->addWidget(view);
-    view->setHtml("<h1>Project MySelf</h1><p>This will be a diagram</p>");
-    view->show();
+    m_view = new QWebView;
+    topLayout->addWidget(m_view);
+
+    getServerPath();
+
+    connect(&m_server, SIGNAL(started()), SLOT(loadView()));
+    m_server.start();
 }
 
 MainWindow::~MainWindow()
 {
+    m_server.stop();
+}
+
+void MainWindow::getServerPath()
+{
+    QSettings settings;
+
+    QString path = settings.value("view/path").toString();
+    if (path.isEmpty()) {
+        path = QInputDialog::getText(this, "View path", "Enter base path of view for web server");
+    }
+    settings.setValue("view/path", path);
+
+    m_server.setPath(path);
+}
+
+void MainWindow::loadView()
+{
+    m_view->setUrl(QUrl("http://localhost:8765"));
+    m_view->show();
 }
