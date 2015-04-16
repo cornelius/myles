@@ -49,6 +49,8 @@ void MainWindow::getServerPath()
 
 void MainWindow::loadView()
 {
-    m_view->setUrl(QUrl("http://localhost:8765"));
+    QUrl url("http://localhost");
+    url.setPort(m_server.port());
+    m_view->setUrl(url);
     m_view->show();
 }

@@ -22,6 +22,11 @@ void WebServer::setPort(int port)
     m_port = port;
 }
 
+int WebServer::port() const
+{
+    return m_port;
+}
+
 void WebServer::start()
 {
     if(!m_process) {
