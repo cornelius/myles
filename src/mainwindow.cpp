@@ -20,7 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     topLayout->addWidget(bucketList);
 
     m_view = new QWebView;
-    topLayout->addWidget(m_view);
+    topLayout->addWidget(m_view, 1);
+    m_view->setMinimumSize(1000, 540);
 
     getServerPath();
 
