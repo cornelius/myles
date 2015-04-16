@@ -66,7 +66,17 @@ void MainWindow::loadView()
 
 void MainWindow::setWatchedFiles()
 {
-    m_dirWatcher->addPath(m_server.path() + "/index.html");
-    m_dirWatcher->addPath(m_server.path() + "/chart.js");
-    m_dirWatcher->addPath(m_server.path() + "/chart.css");
+    QStringList files;
+    files << "index.html" << "chart.js" << "chart.css";
+
+    foreach(QString file, files) {
+        QString path = m_server.path();
+        if(!path.endsWith("/")) {
+            path += "/";
+        }
+        path += file;
+        if(!m_dirWatcher->files().contains(path)) {
+            m_dirWatcher->addPath(path);
+        }
+    }
 }
