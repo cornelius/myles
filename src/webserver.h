@@ -14,6 +14,7 @@ public:
     virtual ~WebServer();
 
     void setPath(const QString &path);
+    QString path() const;
 
     void setPort(int port);
     int port() const;

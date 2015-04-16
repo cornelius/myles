@@ -6,6 +6,7 @@
 #include <QMainWindow>
 
 class QWebView;
+class QFileSystemWatcher;
 
 namespace Ui {
 class MainWindow;
@@ -20,6 +21,7 @@ public:
     ~MainWindow();
 
     void getServerPath();
+    void setWatchedFiles();
 
 public slots:
     void loadView();
@@ -27,6 +29,7 @@ public slots:
 private:
     QWebView *m_view;
     WebServer m_server;
+    QFileSystemWatcher *m_dirWatcher;
 };
 
 #endif

@@ -7,6 +7,8 @@
 #include <QtWebKit>
 #include <QSettings>
 #include <QInputDialog>
+#include <QFileSystemWatcher>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -24,6 +26,11 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view->setMinimumSize(1080, 600);
 
     getServerPath();
+
+    m_dirWatcher = new QFileSystemWatcher(this);
+    connect(m_dirWatcher, SIGNAL(fileChanged(QString)), SLOT(loadView()));
+
+    setWatchedFiles();
 
     connect(&m_server, SIGNAL(started()), SLOT(loadView()));
     m_server.start();
@@ -53,4 +60,13 @@ void MainWindow::loadView()
     url.setPort(m_server.port());
     m_view->setUrl(url);
     m_view->show();
+
+    setWatchedFiles();
+}
+
+void MainWindow::setWatchedFiles()
+{
+    m_dirWatcher->addPath(m_server.path() + "/index.html");
+    m_dirWatcher->addPath(m_server.path() + "/chart.js");
+    m_dirWatcher->addPath(m_server.path() + "/chart.css");
 }

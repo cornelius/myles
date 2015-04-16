@@ -17,6 +17,11 @@ void WebServer::setPath(const QString &path)
     m_path = path;
 }
 
+QString WebServer::path() const
+{
+    return m_path;
+}
+
 void WebServer::setPort(int port)
 {
     m_port = port;
