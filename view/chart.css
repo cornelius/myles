@@ -1,0 +1,33 @@
+.bar {
+  fill: darkgreen;
+}
+
+.bar:hover {
+  fill: green;
+}
+
+.axis {
+  font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.button {
+  border: 1px solid grey;
+  padding: 4px;
+  margin: 2px;
+  display: inline;
+}
+
+.button:hover {
+  background: #eee;
+}
+
+.buttons {
+  margin: 20px;
+}
