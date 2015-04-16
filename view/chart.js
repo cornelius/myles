@@ -3,7 +3,7 @@ $(document).ready(showData("data.json"));
 function showData(filename) {
   $(".chart").empty();
 
-  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+  var margin = {top: 20, right: 20, bottom: 30, left: 60},
     width = 960 - margin.left - margin.right,
     height = 500 - margin.top - margin.bottom;
 
@@ -47,7 +47,7 @@ function showData(filename) {
 
     x.domain([minDate, maxDate])
 
-    y.domain([0, d3.max(data, function(d) { return d.value; })])
+    y.domain([0, d3.max(data, function(d) { return Number(d.value); })])
 
     svg.append("g")
         .attr("class", "x axis")
