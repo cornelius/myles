@@ -21,7 +21,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     m_view = new QWebView;
     topLayout->addWidget(m_view, 1);
-    m_view->setMinimumSize(1000, 540);
+    m_view->setMinimumSize(1080, 600);
 
     getServerPath();
 
