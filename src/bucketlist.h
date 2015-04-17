@@ -3,15 +3,24 @@
 
 #include <QWidget>
 
+class QBoxLayout;
+
 class BucketList : public QWidget
 {
     Q_OBJECT
 public:
     explicit BucketList(QWidget *parent = 0);
 
+    void readBuckets();
+
+    QString localBucketsPath();
+
 signals:
 
 public slots:
+
+private:
+    QBoxLayout *m_topLayout;
 };
 
-#endif // BUCKETLIST_H
+#endif
