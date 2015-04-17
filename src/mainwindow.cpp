@@ -4,7 +4,7 @@
 
 #include <QLabel>
 #include <QBoxLayout>
-#include <QtWebKit>
+#include <QWebView>
 #include <QSettings>
 #include <QInputDialog>
 #include <QFileSystemWatcher>

@@ -1,6 +1,4 @@
-QT += core gui webkit
-
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+QT += core gui webkitwidgets widgets
 
 TARGET = Myles
 TEMPLATE = app
