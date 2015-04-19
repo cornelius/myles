@@ -1,5 +1,7 @@
 #include "bucketlist.h"
 
+#include "bucketlistitem.h"
+
 #include <QBoxLayout>
 #include <QFrame>
 #include <QLabel>
@@ -15,12 +17,12 @@ BucketList::BucketList(QWidget *parent) : QWidget(parent)
     QLabel *label = new QLabel("Buckets");
     m_topLayout->addWidget(label);
 
+    readBuckets();
+
     QFrame *dummyBucket = new QFrame();
     dummyBucket->setFrameStyle(QFrame::Box | QFrame::Raised);
 
     m_topLayout->addWidget(dummyBucket, 1);
-
-    readBuckets();
 }
 
 void BucketList::readBuckets()
@@ -29,7 +31,10 @@ void BucketList::readBuckets()
     QStringList entries = dir.entryList(QStringList("*.json"));
 
     foreach(QString entry, entries) {
-        m_topLayout->addWidget(new QLabel(entry));
+        BucketListItem *item = new BucketListItem;
+        m_topLayout->addWidget(item);
+
+        item->readBucket(localBucketsPath() + "/" + entry);
     }
 }
 

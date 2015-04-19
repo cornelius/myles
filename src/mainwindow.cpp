@@ -9,6 +9,7 @@
 #include <QInputDialog>
 #include <QFileSystemWatcher>
 #include <QDebug>
+#include <QPushButton>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -18,8 +19,15 @@ MainWindow::MainWindow(QWidget *parent) :
 
     QBoxLayout *topLayout = new QHBoxLayout(central);
 
+    QBoxLayout *sideLayout = new QVBoxLayout;
+    topLayout->addLayout(sideLayout);
+
     BucketList *bucketList = new BucketList;
-    topLayout->addWidget(bucketList);
+    sideLayout->addWidget(bucketList);
+
+    QPushButton *button = new QPushButton("Reload View");
+    sideLayout->addWidget(button);
+    connect(button, SIGNAL(clicked(bool)), SLOT(loadView()));
 
     m_view = new QWebView;
     topLayout->addWidget(m_view, 1);
