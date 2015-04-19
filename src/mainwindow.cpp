@@ -11,6 +11,7 @@
 #include <QDebug>
 #include <QPushButton>
 #include <QTimer>
+#include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -29,6 +30,13 @@ MainWindow::MainWindow(QWidget *parent) :
     QPushButton *button = new QPushButton("Reload View");
     sideLayout->addWidget(button);
     connect(button, SIGNAL(clicked(bool)), SLOT(loadView()));
+
+    button = new QPushButton("Close Window");
+    sideLayout->addWidget(button);
+    connect(button, SIGNAL(clicked(bool)), SLOT(close()));
+
+    QShortcut *shortcut = new QShortcut(QKeySequence("Ctrl+Q"), this);
+    QObject::connect(shortcut, SIGNAL(activated()), SLOT(close()));
 
     m_view = new QWebView;
     topLayout->addWidget(m_view, 1);
