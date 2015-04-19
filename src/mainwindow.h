@@ -23,8 +23,11 @@ public:
     void getServerPath();
     void setWatchedFiles();
 
+    void showLoadingMessage();
+
 public slots:
     void loadView();
+    void delayedLoadView();
 
 private:
     QWebView *m_view;

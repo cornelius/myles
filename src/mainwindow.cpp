@@ -10,6 +10,7 @@
 #include <QFileSystemWatcher>
 #include <QDebug>
 #include <QPushButton>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -32,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view = new QWebView;
     topLayout->addWidget(m_view, 1);
     m_view->setMinimumSize(1080, 600);
+    showLoadingMessage();
 
     getServerPath();
 
@@ -40,13 +42,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
     setWatchedFiles();
 
-    connect(&m_server, SIGNAL(started()), SLOT(loadView()));
+    connect(&m_server, SIGNAL(started()), SLOT(delayedLoadView()));
     m_server.start();
 }
 
 MainWindow::~MainWindow()
 {
     m_server.stop();
+}
+
+void MainWindow::showLoadingMessage()
+{
+    m_view->setHtml("Loading...");
 }
 
 void MainWindow::getServerPath()
@@ -62,12 +69,16 @@ void MainWindow::getServerPath()
     m_server.setPath(path);
 }
 
+void MainWindow::delayedLoadView()
+{
+    QTimer::singleShot(1000, this, SLOT(loadView()));
+}
+
 void MainWindow::loadView()
 {
     QUrl url("http://localhost");
     url.setPort(m_server.port());
     m_view->setUrl(url);
-    m_view->show();
 
     setWatchedFiles();
 }
