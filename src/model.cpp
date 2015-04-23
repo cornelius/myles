@@ -24,7 +24,7 @@ void Model::initLocalBucketsPath()
     QCoreApplication::setOrganizationDomain("");
     QCoreApplication::setApplicationName("myer");
 
-    m_localBucketsPath = QStandardPaths::locate(QStandardPaths::AppDataLocation,"buckets",QStandardPaths::LocateDirectory);
+    m_localBucketsPath = QStandardPaths::locate(QStandardPaths::AppDataLocation, "buckets", QStandardPaths::LocateDirectory);
 
     QCoreApplication::setOrganizationName(org);
     QCoreApplication::setOrganizationDomain(domain);

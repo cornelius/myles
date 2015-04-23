@@ -78,6 +78,13 @@ void MainWindow::delayedLoadView()
     QTimer::singleShot(1000, this, SLOT(loadView()));
 }
 
+QString MainWindow::localBucketFile(const QString &bucketFile)
+{
+    QFileInfo fileInfo(bucketFile);
+
+    return viewPath() + "/bucket-" + fileInfo.baseName() + ".json";
+}
+
 void MainWindow::initView()
 {
     QDir dir;
@@ -95,6 +102,11 @@ void MainWindow::initView()
         source.copy(target.fileName());
         target.setPermissions(QFileDevice::ReadUser | QFileDevice::WriteUser |
                               QFileDevice::ReadGroup | QFileDevice::ReadOther);
+    }
+
+    foreach(QString bucketFile, m_model->bucketFiles()) {
+        QFile bucket(bucketFile);
+        bucket.copy(localBucketFile(bucketFile));
     }
 }
 

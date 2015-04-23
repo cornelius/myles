@@ -26,6 +26,8 @@ public:
     QStringList viewFiles();
     QStringList viewDependenciesFiles();
 
+    QString localBucketFile(const QString &bucketFile);
+
     void initView();
     void setWatchedFiles();
 
