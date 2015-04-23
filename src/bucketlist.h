@@ -3,13 +3,15 @@
 
 #include <QWidget>
 
+class Model;
+
 class QBoxLayout;
 
 class BucketList : public QWidget
 {
     Q_OBJECT
 public:
-    explicit BucketList(QWidget *parent = 0);
+    explicit BucketList(Model *model, QWidget *parent = 0);
 
     void readBuckets();
 
@@ -20,6 +22,8 @@ signals:
 public slots:
 
 private:
+    Model *m_model;
+
     QBoxLayout *m_topLayout;
 };
 

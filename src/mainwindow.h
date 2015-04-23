@@ -5,6 +5,8 @@
 
 #include <QMainWindow>
 
+class Model;
+
 class QWebView;
 class QFileSystemWatcher;
 
@@ -34,6 +36,8 @@ public slots:
     void delayedLoadView();
 
 private:
+    Model *m_model;
+
     QWebView *m_view;
     WebServer m_server;
     QFileSystemWatcher *m_dirWatcher;

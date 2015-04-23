@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 
 #include "bucketlist.h"
+#include "model.h"
 
 #include <QLabel>
 #include <QBoxLayout>
@@ -27,7 +28,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QBoxLayout *sideLayout = new QVBoxLayout;
     topLayout->addLayout(sideLayout);
 
-    BucketList *bucketList = new BucketList;
+    m_model = new Model;
+
+    BucketList *bucketList = new BucketList(m_model);
     sideLayout->addWidget(bucketList);
 
     QPushButton *button = new QPushButton("Reload View");
@@ -61,6 +64,8 @@ MainWindow::MainWindow(QWidget *parent) :
 MainWindow::~MainWindow()
 {
     m_server.stop();
+
+    delete m_model;
 }
 
 void MainWindow::showLoadingMessage()

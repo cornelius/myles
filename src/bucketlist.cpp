@@ -1,16 +1,16 @@
 #include "bucketlist.h"
 
+#include "model.h"
 #include "bucketlistitem.h"
 
 #include <QBoxLayout>
 #include <QFrame>
 #include <QLabel>
 #include <QDebug>
-#include <QStandardPaths>
-#include <QCoreApplication>
 #include <QDir>
 
-BucketList::BucketList(QWidget *parent) : QWidget(parent)
+BucketList::BucketList(Model *model, QWidget *parent) : QWidget(parent),
+    m_model(model)
 {
     m_topLayout = new QVBoxLayout(this);
 
@@ -27,32 +27,10 @@ BucketList::BucketList(QWidget *parent) : QWidget(parent)
 
 void BucketList::readBuckets()
 {
-    QDir dir(localBucketsPath());
-    QStringList entries = dir.entryList(QStringList("*.json"));
-
-    foreach(QString entry, entries) {
+    foreach(QString bucketFile, m_model->bucketFiles()) {
         BucketListItem *item = new BucketListItem;
         m_topLayout->addWidget(item);
 
-        item->readBucket(localBucketsPath() + "/" + entry);
+        item->readBucket(bucketFile);
     }
-}
-
-QString BucketList::localBucketsPath()
-{
-    QString org = QCoreApplication::organizationName();
-    QString domain = QCoreApplication::organizationDomain();
-    QString app = QCoreApplication::applicationName();
-
-    QCoreApplication::setOrganizationName("");
-    QCoreApplication::setOrganizationDomain("");
-    QCoreApplication::setApplicationName("myer");
-
-    QString path = QStandardPaths::locate(QStandardPaths::AppDataLocation,"buckets",QStandardPaths::LocateDirectory);
-
-    QCoreApplication::setOrganizationName(org);
-    QCoreApplication::setOrganizationDomain(domain);
-    QCoreApplication::setApplicationName(app);
-
-    return path;
 }
