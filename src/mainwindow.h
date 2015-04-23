@@ -20,7 +20,11 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-    void getServerPath();
+    QString viewPath();
+    QStringList viewFiles();
+    QStringList viewDependenciesFiles();
+
+    void initView();
     void setWatchedFiles();
 
     void showLoadingMessage();

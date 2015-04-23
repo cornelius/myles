@@ -12,6 +12,9 @@
 #include <QPushButton>
 #include <QTimer>
 #include <QShortcut>
+#include <QStandardPaths>
+#include <QFile>
+#include <QDir>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -43,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent) :
     m_view->setMinimumSize(1080, 600);
     showLoadingMessage();
 
-    getServerPath();
+    initView();
+    m_server.setPath(viewPath());
 
     m_dirWatcher = new QFileSystemWatcher(this);
     connect(m_dirWatcher, SIGNAL(fileChanged(QString)), SLOT(loadView()));
@@ -64,22 +68,29 @@ void MainWindow::showLoadingMessage()
     m_view->setHtml("Loading...");
 }
 
-void MainWindow::getServerPath()
-{
-    QSettings settings;
-
-    QString path = settings.value("view/path").toString();
-    if (path.isEmpty()) {
-        path = QInputDialog::getText(this, "View path", "Enter base path of view for web server");
-    }
-    settings.setValue("view/path", path);
-
-    m_server.setPath(path);
-}
-
 void MainWindow::delayedLoadView()
 {
     QTimer::singleShot(1000, this, SLOT(loadView()));
+}
+
+void MainWindow::initView()
+{
+    QDir dir;
+    dir.mkpath(viewPath());
+
+    QStringList files;
+    files.append(viewFiles());
+    files.append(viewDependenciesFiles());
+    files.append("data.json");
+
+    foreach(QString fileName, files) {
+        QFile source(":/view/" + fileName);
+        QFile target(viewPath() + fileName);
+
+        source.copy(target.fileName());
+        target.setPermissions(QFileDevice::ReadUser | QFileDevice::WriteUser |
+                              QFileDevice::ReadGroup | QFileDevice::ReadOther);
+    }
 }
 
 void MainWindow::loadView()
@@ -93,10 +104,7 @@ void MainWindow::loadView()
 
 void MainWindow::setWatchedFiles()
 {
-    QStringList files;
-    files << "index.html" << "chart.js" << "chart.css";
-
-    foreach(QString file, files) {
+    foreach(QString file, viewFiles()) {
         QString path = m_server.path();
         if(!path.endsWith("/")) {
             path += "/";
@@ -106,4 +114,25 @@ void MainWindow::setWatchedFiles()
             m_dirWatcher->addPath(path);
         }
     }
+}
+
+QString MainWindow::viewPath()
+{
+    QString viewPath = QStandardPaths::writableLocation(QStandardPaths::AppDataLocation);
+    viewPath.append("/view/");
+    return viewPath;
+}
+
+QStringList MainWindow::viewFiles()
+{
+    QStringList files;
+    files << "index.html" << "chart.js" << "chart.css";
+    return files;
+}
+
+QStringList MainWindow::viewDependenciesFiles()
+{
+    QStringList files;
+    files << "d3.min.js" << "jquery-2.1.3.min.js";
+    return files;
 }

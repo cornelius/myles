@@ -12,3 +12,6 @@ HEADERS += mainwindow.h \
     bucketlist.h \
     webserver.h \
     bucketlistitem.h
+
+RESOURCES += \
+    myles.qrc
