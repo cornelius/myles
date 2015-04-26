@@ -1,6 +1,5 @@
 #include "bucketlist.h"
 
-#include "model.h"
 #include "bucketlistitem.h"
 
 #include <QBoxLayout>
@@ -27,12 +26,14 @@ BucketList::BucketList(Model *model, QWidget *parent) : QWidget(parent),
 
 void BucketList::readBuckets()
 {
-    foreach(QString bucketFile, m_model->bucketFiles()) {
-        BucketListItem *item = new BucketListItem;
-        m_topLayout->addWidget(item);
+    foreach(Bucket bucket, m_model->buckets()) {
+        if(bucket.isValid()) {
+            BucketListItem *item = new BucketListItem;
+            m_topLayout->addWidget(item);
 
-        item->readBucket(bucketFile);
+            item->setBucket(bucket);
 
-        connect(item, SIGNAL(showGraph(const QString &)), SIGNAL(showGraph(const QString &)));
+            connect(item, SIGNAL(showGraph(const QString &)), SIGNAL(showGraph(const QString &)));
+        }
     }
 }

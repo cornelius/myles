@@ -1,6 +1,8 @@
 #ifndef BUCKETLIST_H
 #define BUCKETLIST_H
 
+#include "model.h"
+
 #include <QWidget>
 
 class Model;

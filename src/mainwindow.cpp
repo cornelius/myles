@@ -29,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
     QBoxLayout *sideLayout = new QVBoxLayout;
     topLayout->addLayout(sideLayout);
 
-    m_model = new Model;
+    m_model = new Model(this);
 
     BucketList *bucketList = new BucketList(m_model);
     sideLayout->addWidget(bucketList);

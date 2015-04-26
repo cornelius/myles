@@ -3,11 +3,6 @@
 #include <QBoxLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <QFile>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QJsonArray>
-#include <QMessageBox>
 #include <QDebug>
 
 BucketListItem::BucketListItem()
@@ -30,24 +25,10 @@ void BucketListItem::slotShowGraph()
     emit showGraph(m_bucketId);
 }
 
-void BucketListItem::readBucket(const QString &path)
+void BucketListItem::setBucket(const Bucket &bucket)
 {
-    QFile file(path);
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::critical(this, "Error reading bucket",
-          QString("Unable to open bucket at '%1'").arg(path));
-        return;
-    }
+    m_bucketId = bucket.id();
 
-    QJsonDocument doc = QJsonDocument::fromJson(file.readAll());
-    file.close();
-
-    QString title = doc.object()["title"].toString();
-    m_title->setText(title);
-
-    QJsonArray items = doc.object()["data"].toArray();
-
-    m_bucketId = doc.object()["bucket_id"].toString();
-
-    m_details->setText(QString("%1 items\nId: %2").arg(items.size()).arg(m_bucketId));
+    m_title->setText(bucket.title());
+    m_details->setText(QString("%1 items\nId: %2").arg(bucket.size()).arg(bucket.id()));
 }

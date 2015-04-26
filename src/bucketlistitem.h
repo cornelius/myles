@@ -1,6 +1,8 @@
 #ifndef BUCKETLISTITEM_H
 #define BUCKETLISTITEM_H
 
+#include "model.h"
+
 #include <QWidget>
 
 class QLabel;
@@ -11,7 +13,7 @@ class BucketListItem : public QWidget
 public:
     BucketListItem();
 
-    void readBucket(const QString &path);
+    void setBucket(const Bucket &bucket);
 
 signals:
     void showGraph(const QString &bucketId);
