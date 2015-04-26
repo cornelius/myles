@@ -101,6 +101,9 @@ void MainWindow::initView()
         QFile source(":/view/" + fileName);
         QFile target(viewPath() + fileName);
 
+        if(target.exists()) {
+            target.remove();
+        }
         source.copy(target.fileName());
         target.setPermissions(QFileDevice::ReadUser | QFileDevice::WriteUser |
                               QFileDevice::ReadGroup | QFileDevice::ReadOther);
