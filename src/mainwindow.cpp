@@ -95,7 +95,6 @@ void MainWindow::initView()
     QStringList files;
     files.append(viewFiles());
     files.append(viewDependenciesFiles());
-    files.append("data.json");
 
     foreach(QString fileName, files) {
         QFile source(":/view/" + fileName);
