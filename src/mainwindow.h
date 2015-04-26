@@ -37,6 +37,7 @@ public slots:
     void loadView();
     void delayedLoadView();
     void showGraph(const QString &bucketId);
+    void showFirstGraph();
 
 private:
     Model *m_model;

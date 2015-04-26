@@ -122,6 +122,13 @@ void MainWindow::loadView()
     m_view->setUrl(url);
 
     setWatchedFiles();
+
+    QTimer::singleShot(1000, this, SLOT(showFirstGraph()));
+}
+
+void MainWindow::showFirstGraph()
+{
+    showGraph(m_model->buckets().first().id());
 }
 
 void MainWindow::showGraph(const QString &bucketId)

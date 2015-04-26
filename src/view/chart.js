@@ -1,5 +1,3 @@
-$(document).ready(showData("data.json"));
-
 function showData(filename) {
   $(".chart").empty();
 
