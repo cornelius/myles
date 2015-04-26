@@ -4,7 +4,6 @@
 #include <QWidget>
 
 class QLabel;
-class QCheckBox;
 
 class BucketListItem : public QWidget
 {
@@ -14,10 +13,17 @@ public:
 
     void readBucket(const QString &path);
 
+signals:
+    void showGraph(const QString &bucketId);
+
+protected slots:
+    void slotShowGraph();
+
 private:
+    QString m_bucketId;
+
     QLabel *m_title;
     QLabel *m_details;
-    QCheckBox *m_displayToggle;
 };
 
 #endif

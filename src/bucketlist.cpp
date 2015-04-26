@@ -32,5 +32,7 @@ void BucketList::readBuckets()
         m_topLayout->addWidget(item);
 
         item->readBucket(bucketFile);
+
+        connect(item, SIGNAL(showGraph(const QString &)), SIGNAL(showGraph(const QString &)));
     }
 }

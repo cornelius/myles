@@ -2,7 +2,7 @@
 
 #include <QBoxLayout>
 #include <QLabel>
-#include <QCheckBox>
+#include <QPushButton>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -20,8 +20,14 @@ BucketListItem::BucketListItem()
     m_details = new QLabel;
     topLayout->addWidget(m_details);
 
-    m_displayToggle = new QCheckBox("Show graph");
-    topLayout->addWidget(m_displayToggle);
+    QPushButton *button = new QPushButton("Show graph");
+    topLayout->addWidget(button);
+    connect(button, SIGNAL(clicked()), SLOT(slotShowGraph()));
+}
+
+void BucketListItem::slotShowGraph()
+{
+    emit showGraph(m_bucketId);
 }
 
 void BucketListItem::readBucket(const QString &path)
@@ -41,7 +47,7 @@ void BucketListItem::readBucket(const QString &path)
 
     QJsonArray items = doc.object()["data"].toArray();
 
-    QString bucketId = doc.object()["bucket_id"].toString();
+    m_bucketId = doc.object()["bucket_id"].toString();
 
-    m_details->setText(QString("%1 items\nId: %2").arg(items.size()).arg(bucketId));
+    m_details->setText(QString("%1 items\nId: %2").arg(items.size()).arg(m_bucketId));
 }

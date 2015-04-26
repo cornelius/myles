@@ -18,6 +18,7 @@ public:
     QString localBucketsPath();
 
 signals:
+    void showGraph(const QString &bucketId);
 
 public slots:
 

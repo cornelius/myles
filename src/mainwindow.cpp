@@ -16,6 +16,7 @@
 #include <QStandardPaths>
 #include <QFile>
 #include <QDir>
+#include <QWebFrame>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent)
@@ -32,6 +33,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     BucketList *bucketList = new BucketList(m_model);
     sideLayout->addWidget(bucketList);
+    connect(bucketList, SIGNAL(showGraph(QString)), SLOT(showGraph(QString)));
 
     QPushButton *button = new QPushButton("Reload View");
     sideLayout->addWidget(button);
@@ -117,6 +119,13 @@ void MainWindow::loadView()
     m_view->setUrl(url);
 
     setWatchedFiles();
+}
+
+void MainWindow::showGraph(const QString &bucketId)
+{
+    QString script = QString("showData('bucket-%1.json')").arg(bucketId);
+
+    m_view->page()->mainFrame()->evaluateJavaScript(script);
 }
 
 void MainWindow::setWatchedFiles()
